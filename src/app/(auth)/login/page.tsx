@@ -1,8 +1,7 @@
 import Link from "next/link";
 
-import { CardWrapper } from "@/components/card-wrapper";
-
-import { LoginForm } from "@/app/(auth)/login/form";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+import { LoginForm } from "@/components/auth/login-form";
 
 export default function LoginPage() {
   return (

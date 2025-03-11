@@ -1,8 +1,7 @@
 import Link from "next/link";
 
-import { CardWrapper } from "@/components/card-wrapper";
-
-import { RegisterForm } from "@/app/(auth)/register/form";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export default function RegisterPage() {
   return (
