@@ -15,6 +15,7 @@ const config = {
     "^@/types/(.*)$",
     "^@/config/(.*)$",
     "^@/lib/(.*)$",
+    "^@/actions(.*)$",
     "^@/data(.*)$",
     "^@/hooks/(.*)$",
     "^@/components/ui/(.*)$",
@@ -23,9 +24,9 @@ const config = {
     "^@/app/(.*)$",
     "^[./]",
   ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  plugins: ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"]
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  plugins: ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
 };
 
 export default config;

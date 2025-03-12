@@ -2,8 +2,9 @@
 
 import { redirect } from "next/navigation";
 
-import { logout } from "@/actions/logout";
 import { toast } from "sonner";
+
+import { logout } from "@/actions/logout";
 
 import { Button } from "@/components/ui/button";
 

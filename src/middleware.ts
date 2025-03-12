@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { getCurrentSession } from "./lib/session";
+import { getCurrentSession } from "@/lib/session";
 
 const publicRoutes = ["/login", "/register"];
 

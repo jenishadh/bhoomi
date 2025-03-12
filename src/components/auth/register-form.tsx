@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import { redirect } from "next/navigation";
 
-import { register } from "@/actions/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -12,6 +11,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { registerSchema } from "@/lib/zod/auth";
+
+import { register } from "@/actions/register";
 
 import { Button } from "@/components/ui/button";
 import {
