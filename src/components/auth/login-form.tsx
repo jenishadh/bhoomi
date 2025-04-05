@@ -1,9 +1,12 @@
 "use client"
 
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { LoaderCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import { login } from "@/actions/login"
 import { loginSchema } from "@/schemas/auth"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,8 +18,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { FormError } from "@/components/form-error"
+import { FormSuccess } from "@/components/form-success"
 
 export function LoginForm() {
+  const [success, setSuccess] = useState("")
+  const [error, setError] = useState("")
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -25,9 +33,20 @@ export function LoginForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    setSuccess("")
+    setError("")
+    const response = await login(values)
+    if (response?.success) {
+      setSuccess(response.success)
+    }
+    if (response?.error) {
+      setError(response.error)
+    }
+    form.reset()
   }
+
+  const { isSubmitting } = form.formState
 
   return (
     <Form {...form}>
@@ -46,6 +65,7 @@ export function LoginForm() {
                   placeholder="jenish@example.com"
                   type="email"
                   autoComplete="email"
+                  disabled={isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -64,6 +84,7 @@ export function LoginForm() {
                   placeholder="********"
                   type="password"
                   autoComplete="current-password"
+                  disabled={isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -71,7 +92,11 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Login</Button>
+        <FormSuccess message={success} />
+        <FormError message={error} />
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? <LoaderCircle /> : "Login"}
+        </Button>
       </form>
     </Form>
   )

@@ -1,5 +1,13 @@
 "use client"
 
+import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { LoaderCircle } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+
+import { register } from "@/actions/register"
+import { registerSchema } from "@/schemas/auth"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -10,12 +18,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { registerSchema } from "@/schemas/auth"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { FormError } from "@/components/form-error"
+import { FormSuccess } from "@/components/form-success"
 
 export function RegisterForm() {
+  const [success, setSuccess] = useState("")
+  const [error, setError] = useState("")
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -25,9 +34,20 @@ export function RegisterForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof registerSchema>) {
+    setSuccess("")
+    setError("")
+    const response = await register(values)
+    if (response?.success) {
+      setSuccess(response.success)
+    }
+    if (response?.error) {
+      setError(response.error)
+    }
+    form.reset()
   }
+
+  const { isSubmitting } = form.formState
 
   return (
     <Form {...form}>
@@ -42,7 +62,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Eg. Jenish Adhikari" {...field} />
+                <Input
+                  placeholder="Eg. Jenish Adhikari"
+                  disabled={isSubmitting}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -59,6 +83,7 @@ export function RegisterForm() {
                   placeholder="jenish@example.com"
                   type="email"
                   autoComplete="email"
+                  disabled={isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -77,6 +102,7 @@ export function RegisterForm() {
                   placeholder="********"
                   type="password"
                   autoComplete="current-password"
+                  disabled={isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -84,7 +110,11 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Create account</Button>
+        <FormSuccess message={success} />
+        <FormError message={error} />
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? <LoaderCircle /> : "Create account"}
+        </Button>
       </form>
     </Form>
   )
