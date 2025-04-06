@@ -38,3 +38,9 @@ export async function getUserInfo() {
   const { success, data: userData } = userInfoSchema.safeParse(user)
   return success ? userData : null
 }
+
+export async function isUserLoggedIn() {
+  const userSession = await getUserSessionFromCookie()
+
+  return !!userSession
+}
