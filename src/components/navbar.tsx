@@ -32,7 +32,7 @@ export async function Navbar() {
           ) : (
             <>
               <Link
-                href="/login"
+                href="/register"
                 className={buttonVariants({
                   variant: "outline",
                 })}
