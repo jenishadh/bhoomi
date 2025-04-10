@@ -13,14 +13,14 @@ enum Role {
 }
 
 model User {
-  id       String   @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
-  email    String   @unique
+  email    String  @unique
   password String
   image    String?
-  role     Role     @default(USER)
+  role     Role    @default(USER)
 
-  mutationApplications MutationApplication[]  // 1:N relationship
+  mutationApplications MutationApplication[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,27 +40,33 @@ enum OwnershipType {
   Other
 }
 
+enum StatusType {
+  PENDING
+  PROCESSING
+  APPROVED
+  REJECTED
+}
+
 model MutationApplication {
-  id                    String   @id @default(cuid())
-  fullName              String
-  email                 String
-  phone                 String
-  applicantAddress      String
+  id                     String        @id @default(cuid())
+  applicantName          String
+  applicantEmail         String
+  applicantPhoneNo       String
   applicantCitizenshipNo String
-  district              String
-  localBody             String
-  wardNumber            String
-  landParcelNumber      String
-  landType              LandType
-  ownershipType         OwnershipType
-  previousOwnerName     String
-  reasonForMutation     String
-  dateOfTransfer        DateTime
-  documents             String[]  // Array of uploaded doc URLs
+  landDistrict           String
+  landCity              String
+  landWardNumber         String
+  landParcelNumber       String
+  landType               LandType
+  ownershipType          OwnershipType
+  previousOwnerName      String
+  reasonForMutation      String
+  dateOfTransfer         DateTime
+  applicationStatus      StatusType    @default(PENDING)
 
-  appliedById           String
-  appliedBy             User      @relation(fields: [appliedById], references: [id])
+  appliedById String
+  appliedBy   User   @relation(fields: [appliedById], references: [id])
 
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -12,13 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { RecordDetail } from "@/components/recordDetail"
 
 export type UserRecords = {
   landParcelNumber: string
   landType: "Residential" | "Agricultural" | "Commercial" | "Other"
   ownershipType: "Inherited" | "Purchased" | "Gifted" | "Other"
-  fullName: string
+  applicantName: string
   previousOwnerName: string
+  applicationStatus: "PENDING" | "PROCESSING" | "APPROVED" | "REJECTED"
 }
 
 export const columns: ColumnDef<UserRecords>[] = [
@@ -46,7 +48,7 @@ export const columns: ColumnDef<UserRecords>[] = [
     header: "Ownership Type",
   },
   {
-    accessorKey: "fullName",
+    accessorKey: "applicantName",
     header: ({ column }) => {
       return (
         <Button
@@ -58,7 +60,7 @@ export const columns: ColumnDef<UserRecords>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
+    cell: ({ row }) => <div>{row.getValue("applicantName")}</div>,
   },
   {
     accessorKey: "previousOwnerName",
@@ -76,6 +78,10 @@ export const columns: ColumnDef<UserRecords>[] = [
     cell: ({ row }) => <div>{row.getValue("previousOwnerName")}</div>,
   },
   {
+    accessorKey: "applicationStatus",
+    header: "Status",
+  },
+  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
@@ -91,7 +97,9 @@ export const columns: ColumnDef<UserRecords>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <RecordDetail />
+            </DropdownMenuItem>
             <DropdownMenuItem>Update</DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>

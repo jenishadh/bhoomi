@@ -12,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { RecordDetail } from "@/components/recordDetail"
 
 export type UserRecords = {
   landParcelNumber: string
@@ -20,7 +19,6 @@ export type UserRecords = {
   ownershipType: "Inherited" | "Purchased" | "Gifted" | "Other"
   applicantName: string
   previousOwnerName: string
-  applicationStatus: "PENDING" | "PROCESSING" | "APPROVED" | "REJECTED"
 }
 
 export const columns: ColumnDef<UserRecords>[] = [
@@ -78,10 +76,6 @@ export const columns: ColumnDef<UserRecords>[] = [
     cell: ({ row }) => <div>{row.getValue("previousOwnerName")}</div>,
   },
   {
-    accessorKey: "applicationStatus",
-    header: "Status",
-  },
-  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
@@ -97,9 +91,7 @@ export const columns: ColumnDef<UserRecords>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <RecordDetail />
-            </DropdownMenuItem>
+            <DropdownMenuItem>View Details</DropdownMenuItem>
             <DropdownMenuItem>Update</DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
