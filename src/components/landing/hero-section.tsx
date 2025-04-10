@@ -17,11 +17,14 @@ export function HeroSection() {
             verify land ownership records with transparency and accountability.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
-            <Link href="/search" className={buttonVariants({ size: "lg" })}>
+            <Link
+              href="/dashboard/records"
+              className={buttonVariants({ size: "lg" })}
+            >
               Search Land Record
             </Link>
             <Link
-              href="/search"
+              href="/dashboard/mutation"
               className={buttonVariants({ size: "lg", variant: "outline" })}
             >
               Apply for Mutation

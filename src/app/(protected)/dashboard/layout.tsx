@@ -11,11 +11,11 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar userInfo={user} />
-      <div className="flex flex-col">
+      <div className="flex w-full flex-col">
         <header className="flex h-12 items-center">
           <SidebarTrigger />
         </header>
-        <main>{children}</main>
+        <main className="w-full">{children}</main>
       </div>
     </SidebarProvider>
   )

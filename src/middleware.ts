@@ -11,35 +11,26 @@ import {
 } from "./routes"
 
 export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname.toLowerCase().replace(/\/$/, "")
+  const { pathname } = request.nextUrl
 
   const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
   const isAuthRoute = AUTH_ROUTES.includes(pathname)
   const isAdminRoute = pathname.startsWith(ADMIN_ROUTE)
 
-  const redirectToLogin = () =>
-    NextResponse.redirect(new URL("/login", request.url))
-
-  const redirectToDashboard = () =>
-    NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, request.url))
-
-  let userSession = null
-  if (!isPublicRoute || isAdminRoute || isAuthRoute) {
-    userSession = await getUserSessionFromCookie()
-  }
-
+  const userSession = await getUserSessionFromCookie()
   const isLoggedIn = !!userSession
 
   if (isLoggedIn && isAuthRoute) {
-    return redirectToDashboard()
+    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, request.url))
   }
 
   if (!isPublicRoute && !isLoggedIn && !isAuthRoute) {
-    return redirectToLogin()
+    return NextResponse.redirect(new URL("/login", request.url))
   }
 
-  if (isAdminRoute && (!isLoggedIn || userSession?.role !== "ADMIN")) {
-    return redirectToLogin()
+  if (isAdminRoute) {
+    if (!isLoggedIn || userSession?.role !== "ADMIN")
+      return NextResponse.redirect(new URL("/login", request.url))
   }
 
   return NextResponse.next()
@@ -47,7 +38,9 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
     "/(api|trpc)(.*)",
   ],
 }

@@ -44,3 +44,8 @@ export async function isUserLoggedIn() {
 
   return !!userSession
 }
+
+export async function getAllUsers() {
+  const users = await db.user.findMany()
+  return users
+}

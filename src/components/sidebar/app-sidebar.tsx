@@ -1,13 +1,7 @@
 "use client"
 
 import * as React from "react"
-import {
-  Dock,
-  FileBadge,
-  LayoutDashboard,
-  ShieldUser,
-  SquareLibrary,
-} from "lucide-react"
+import { Dock, FileBadge, ShieldUser, SquareLibrary } from "lucide-react"
 
 import {
   Sidebar,
@@ -25,39 +19,28 @@ const data = {
   navMain: [
     {
       title: "Mutation",
-      url: "#",
       icon: FileBadge,
       link: "/dashboard/mutation",
     },
     {
       title: "Records",
-      url: "#",
       icon: SquareLibrary,
       link: "/dashboard/records",
     },
   ],
   admin: [
     {
-      title: "Overview",
-      url: "#",
-      icon: LayoutDashboard,
-      link: "/dashboard/admin/overview",
-    },
-    {
       title: "Applications",
-      url: "#",
       icon: Dock,
       link: "/dashboard/admin/applications",
     },
     {
       title: "Records",
-      url: "#",
       icon: SquareLibrary,
       link: "/dashboard/admin/records",
     },
     {
       title: "Users",
-      url: "#",
       icon: ShieldUser,
       link: "/dashboard/admin/users",
     },
