@@ -17,11 +17,11 @@ export const passwordSchema = z
 
 export const loginSchema = z.object({
   email: emailSchema,
-  password: passwordSchema,
+  password: z.string().min(1, { message: "Please enter your password" }),
 })
 
 export const registerSchema = z.object({
   name: z.string().min(2, { message: "Please enter your full name" }).trim(),
   email: emailSchema,
-  password: z.string().min(1, { message: "Please enter your password" }),
+  password: passwordSchema,
 })

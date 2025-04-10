@@ -40,3 +40,26 @@ export async function mutation(values: z.infer<typeof mutationSchema>) {
     }
   }
 }
+
+type ApplicationStatus = "PENDING" | "PROCESSING" | "APPROVED" | "REJECTED"
+
+export async function updateStatus(id: string, status: ApplicationStatus) {
+  try {
+    await db.mutationApplication.update({
+      where: {
+        id: id,
+      },
+      data: {
+        applicationStatus: status,
+      },
+    })
+    return {
+      success: "Application submitted successfully",
+    }
+  } catch (error) {
+    console.log("Update error: ", error)
+    return {
+      error: "Something went wrong! Please try again.",
+    }
+  }
+}

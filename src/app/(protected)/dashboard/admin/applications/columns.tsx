@@ -1,6 +1,6 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
+import type { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -12,13 +12,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ViewDetails } from "@/components/view-details"
 
 export type UserRecords = {
+  id: string
+  applicantName: string
+  applicantEmail: string
+  applicantPhoneNo: string
+  applicantCitizenshipNo: string
+  landDistrict: string
+  landCity: string
+  landWardNumber: string
   landParcelNumber: string
   landType: "Residential" | "Agricultural" | "Commercial" | "Other"
   ownershipType: "Inherited" | "Purchased" | "Gifted" | "Other"
-  applicantName: string
   previousOwnerName: string
+  reasonForMutation: string
+  dateOfTransfer: string
+  applicationStatus: "PENDING" | "APPROVED" | "REJECTED"
+  appliedBy: string
+  appliedById: string
+
+  createdAt: string
 }
 
 export const columns: ColumnDef<UserRecords>[] = [
@@ -79,7 +94,8 @@ export const columns: ColumnDef<UserRecords>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      console.log(row)
+      const record = row.original
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -91,8 +107,9 @@ export const columns: ColumnDef<UserRecords>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Details</DropdownMenuItem>
-            <DropdownMenuItem>Update</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <ViewDetails record={record} />
+            </DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
